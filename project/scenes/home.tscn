@@ -2,7 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://bbdixu3tjd0d1" path="res://themes/main_theme.tres" id="1_krot7"]
 [ext_resource type="Texture2D" uid="uid://c5labupp5qjql" path="res://icon.svg" id="2_u4wd2"]
-[ext_resource type="Script" uid="uid://bpo1h660qbtku" path="res://addons/pyramid_container/pyramid_container.gd" id="3_w18ys"]
+[ext_resource type="PackedScene" uid="uid://c1lewxcd5ocgn" path="res://scenes/bracket_menu.tscn" id="2_w18ys"]
+[ext_resource type="PackedScene" uid="uid://b7nl68ml83ta8" path="res://scenes/player_info.tscn" id="3_reixx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsr8q"]
 content_margin_left = 0.0
@@ -46,141 +47,81 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer1" type="VBoxContainer" parent="MarginContainer" unique_id=1421199131]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/VBoxContainer1" unique_id=1376510118]
-custom_minimum_size = Vector2(0, 100)
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1232061416]
 layout_mode = 2
 
-[node name="Control" type="ScrollContainer" parent="MarginContainer/VBoxContainer1" unique_id=427699346]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=944577910]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer1/Control" unique_id=1028212605]
+[node name="MenuButtons" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1661830935]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="PyramidContainer" type="Container" parent="MarginContainer/VBoxContainer1/Control/PanelContainer" unique_id=1178081157]
+[node name="MenuButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=650685735]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("3_w18ys")
-direction = 1
-draw_enabled = true
-metadata/_custom_type_script = "uid://bpo1h660qbtku"
+text = "Menu"
 
-[node name="Label1" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=262392099]
+[node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=277075508]
 layout_mode = 2
-text = "Abdullah"
-horizontal_alignment = 1
+text = "Home"
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=1909992393]
-layout_mode = 2
-text = "Margot"
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=94912750]
-layout_mode = 2
-text = "Yosha"
-horizontal_alignment = 1
-
-[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=1331418256]
-layout_mode = 2
-text = "Yosha"
-horizontal_alignment = 1
-
-[node name="Label5" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=2043242884]
-layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
-
-[node name="Label6" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=362748825]
-layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
-
-[node name="Label7" type="Label" parent="MarginContainer/VBoxContainer1/Control/PanelContainer/PyramidContainer" unique_id=1442054175]
-layout_mode = 2
-text = "Test"
-horizontal_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer1" unique_id=746850007]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer1/HBoxContainer2" unique_id=866824392]
-layout_mode = 2
-text = "Username"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer1/HBoxContainer2" unique_id=1834778823]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer1/HBoxContainer2" unique_id=1394870853]
-layout_mode = 2
-text = "money"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer" unique_id=75822241]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2" unique_id=944577910]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MenuButton" type="FoldableContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer" unique_id=1775133487]
-custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-folded = true
-title = "Menu"
-title_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton" unique_id=1661830935]
-visible = false
-layout_mode = 2
-
-[node name="RegisterButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=1972074417]
+[node name="RegisterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=1972074417]
 layout_mode = 2
 text = "Register"
 
-[node name="GambleButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=517220473]
+[node name="GambleButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=517220473]
 layout_mode = 2
 text = "Gamble
 "
 
-[node name="ShopButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=55828114]
+[node name="ShopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=55828114]
 layout_mode = 2
 text = "Shop
 
 "
 
-[node name="RankingsButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=955263908]
+[node name="RankingsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=955263908]
 layout_mode = 2
 text = "Rankings
 
 "
 
-[node name="LoginButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=1274792821]
+[node name="LoginButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=1274792821]
 layout_mode = 2
 text = "Login"
 
-[node name="LogoutButton" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer/MenuButton/VBoxContainer" unique_id=526041951]
+[node name="LogoutButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=526041951]
 layout_mode = 2
 text = "Logout
 "
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer" unique_id=1272323651]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1272323651]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/HBoxContainer/VBoxContainer" unique_id=1787093157]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1787093157]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 1
 
-[node name="Logo" type="TextureRect" parent="MarginContainer/VBoxContainer2/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=612975777]
+[node name="Logo" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=612975777]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("2_u4wd2")
+expand_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1028212605]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BracketMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=531321006 instance=ExtResource("2_w18ys")]
+layout_mode = 2
+
+[node name="PlayerInfo" parent="MarginContainer/VBoxContainer" unique_id=1730704938 instance=ExtResource("3_reixx")]
+layout_mode = 2

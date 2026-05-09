@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://c1lewxcd5ocgn"]
+
+[ext_resource type="Script" uid="uid://bpo1h660qbtku" path="res://addons/pyramid_container/pyramid_container.gd" id="1_1flux"]
+
+[node name="TabContainer" type="TabContainer" unique_id=1294393067]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tab_alignment = 2
+current_tab = 0
+tab_0/title = "Winners Bracket"
+tab_1/title = "Losers Bracket"
+
+[node name="WinnersBracketContainer" type="ScrollContainer" parent="." unique_id=37588187]
+layout_mode = 2
+metadata/_tab_index = 0
+metadata/_tab_name = "Winners Bracket"
+
+[node name="WinnersBracket" type="Container" parent="WinnersBracketContainer" unique_id=531321006]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_1flux")
+direction = 1
+v_separation = 50.0
+draw_enabled = true
+metadata/_custom_type_script = "uid://bpo1h660qbtku"
+
+[node name="Label1" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=77054379]
+layout_mode = 2
+text = "Abdullah"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=108544469]
+layout_mode = 2
+text = "Margot"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1044155439]
+layout_mode = 2
+text = "Yosha"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=972187632]
+layout_mode = 2
+text = "Owen"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1558126647]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=129392584]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=508564750]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1716468609]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=960397705]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1675252396]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1820731685]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label12" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=558081502]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label13" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1457657227]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label14" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=1780376223]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label15" type="Label" parent="WinnersBracketContainer/WinnersBracket" unique_id=167655943]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="LosersBracketContainer" type="ScrollContainer" parent="." unique_id=1454085667]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+metadata/_tab_name = "Losers Bracket"
+
+[node name="LosersBracket" type="Container" parent="LosersBracketContainer" unique_id=1154413166]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_1flux")
+direction = 1
+draw_enabled = true
+metadata/_custom_type_script = "uid://bpo1h660qbtku"
+
+[node name="Label1" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1201948912]
+layout_mode = 2
+text = "Abdullah"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=125399476]
+layout_mode = 2
+text = "Margot"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=433495498]
+layout_mode = 2
+text = "Yosha"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1039488882]
+layout_mode = 2
+text = "Owen"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1347787723]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=967667429]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1206473734]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=261010028]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1424990218]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=226048279]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1900804572]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label12" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=905256155]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label13" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1401822765]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label14" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=1775156036]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="Label15" type="Label" parent="LosersBracketContainer/LosersBracket" unique_id=48831700]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
