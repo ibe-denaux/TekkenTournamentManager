@@ -2,8 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://bbdixu3tjd0d1" path="res://themes/main_theme.tres" id="1_krot7"]
 [ext_resource type="Texture2D" uid="uid://c5labupp5qjql" path="res://icon.svg" id="2_u4wd2"]
+[ext_resource type="Script" uid="uid://bb66ck5sxk4nh" path="res://scripts/home.gd" id="2_uhids"]
 [ext_resource type="PackedScene" uid="uid://c1lewxcd5ocgn" path="res://scenes/bracket_menu.tscn" id="2_w18ys"]
 [ext_resource type="PackedScene" uid="uid://b7nl68ml83ta8" path="res://scenes/player_info.tscn" id="3_reixx"]
+[ext_resource type="PackedScene" uid="uid://d48xii13h6ir" path="res://scenes/login_menu.tscn" id="5_yxilm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsr8q"]
 content_margin_left = 0.0
@@ -21,7 +23,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Home" type="Control" unique_id=1573360146]
+[node name="Home" type="Control" unique_id=1573360146 node_paths=PackedStringArray("http_request", "bracket_menu", "login_menu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +31,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_krot7")
+script = ExtResource("2_uhids")
+http_request = NodePath("HTTPRequest")
+bracket_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/BracketMenu")
+login_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/LoginMenu")
 
 [node name="Background" type="Panel" parent="." unique_id=501504669]
 layout_mode = 1
@@ -70,6 +76,10 @@ text = "Home"
 [node name="RegisterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=1972074417]
 layout_mode = 2
 text = "Register"
+
+[node name="ChooseFighterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=44785034]
+layout_mode = 2
+text = "Choose Fighter"
 
 [node name="GambleButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=517220473]
 layout_mode = 2
@@ -115,13 +125,26 @@ mouse_filter = 2
 texture = ExtResource("2_u4wd2")
 expand_mode = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1028212605]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=25262148]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+current_tab = 0
+tabs_visible = false
 
-[node name="BracketMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=531321006 instance=ExtResource("2_w18ys")]
+[node name="BracketMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=531321006 instance=ExtResource("2_w18ys")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="LoginMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=310404148 instance=ExtResource("5_yxilm")]
+visible = false
 layout_mode = 2
 
 [node name="PlayerInfo" parent="MarginContainer/VBoxContainer" unique_id=1730704938 instance=ExtResource("3_reixx")]
 layout_mode = 2
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=606480731]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/LoginButton" to="." method="_on_login_button_pressed"]

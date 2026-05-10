@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://d48xii13h6ir"]
+
+[ext_resource type="Script" uid="uid://dlawua8dqphlx" path="res://scripts/login_menu.gd" id="1_u8sew"]
+[ext_resource type="PackedScene" uid="uid://cboho2oah1cmg" path="res://scenes/login_container.tscn" id="2_jmb1l"]
+
+[node name="LoginMenu" type="CenterContainer" unique_id=310404148 node_paths=PackedStringArray("login_name_line_edit", "login_password_line_edit", "create_account_name_line_edit", "create_account_password_line_edit", "login_response_label", "create_account_response_label", "http_request")]
+script = ExtResource("1_u8sew")
+login_name_line_edit = NodePath("TabContainer/LoginContainer/MarginContainer/GridContainer/NameLineEdit")
+login_password_line_edit = NodePath("TabContainer/LoginContainer/MarginContainer/GridContainer/PasswordLineEdit")
+create_account_name_line_edit = NodePath("TabContainer/CreateAccountContainer/MarginContainer/GridContainer/NameLineEdit")
+create_account_password_line_edit = NodePath("TabContainer/CreateAccountContainer/MarginContainer/GridContainer/PasswordLineEdit")
+login_response_label = NodePath("TabContainer/LoginContainer/Response")
+create_account_response_label = NodePath("TabContainer/CreateAccountContainer/Response")
+http_request = NodePath("HTTPRequest")
+metadata/_tab_index = 1
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1364303194]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+current_tab = 0
+clip_tabs = false
+tab_0/title = "Login"
+tab_1/title = "Create Account"
+
+[node name="LoginContainer" parent="TabContainer" unique_id=737748698 instance=ExtResource("2_jmb1l")]
+layout_mode = 2
+
+[node name="CreateAccountContainer" parent="TabContainer" unique_id=518423567 instance=ExtResource("2_jmb1l")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+metadata/_tab_name = "Create Account"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1798195122]
+
+[connection signal="pressed" from="TabContainer/LoginContainer/HBoxContainer/ConfirmButton" to="." method="_on_login_confirm_button_pressed"]
+[connection signal="pressed" from="TabContainer/LoginContainer/HBoxContainer/CancelButton" to="." method="_on_login_cancel_button_pressed"]
+[connection signal="pressed" from="TabContainer/CreateAccountContainer/HBoxContainer/ConfirmButton" to="." method="_on_create_account_confirm_button_pressed"]
+[connection signal="pressed" from="TabContainer/CreateAccountContainer/HBoxContainer/CancelButton" to="." method="_on_create_account_cancel_button_pressed"]
+
+[editable path="TabContainer/LoginContainer"]
+[editable path="TabContainer/CreateAccountContainer"]
