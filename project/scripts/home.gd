@@ -15,3 +15,7 @@ func _on_home_button_pressed() -> void:
 
 func _on_login_button_pressed() -> void:
 	login_menu.show()
+
+
+func _on_logout_button_pressed() -> void:
+	pass # Replace with function body.

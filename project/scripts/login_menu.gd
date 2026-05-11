@@ -18,9 +18,11 @@ var http_request: HTTPRequest
 
 
 func _on_login_confirm_button_pressed() -> void:
-	var json = JSON.stringify({"username": login_name_line_edit.text, "password": login_password_line_edit.text})
-	http_request.request_completed.connect(_on_login_request_completed, CONNECT_ONE_SHOT)
-	http_request.request(NetworkUtil.server_address + "/login", ["Content-Type: application/json"], HTTPClient.METHOD_POST, json)
+	var user_name: String = login_name_line_edit.text
+	var result: String = await NetworkUtil.login(user_name, login_password_line_edit.text)
+	if result == NetworkUtil.server_ok_response:
+		NetworkUtil.set_user_name(user_name)
+	login_response_label.text = result
 
 
 func _on_login_cancel_button_pressed() -> void:
@@ -28,22 +30,12 @@ func _on_login_cancel_button_pressed() -> void:
 
 
 func _on_create_account_confirm_button_pressed() -> void:
-	var json = JSON.stringify({"username": create_account_name_line_edit.text, "password": create_account_password_line_edit.text})
-	http_request.request_completed.connect(_on_create_account_request_completed, CONNECT_ONE_SHOT)
-	http_request.request(NetworkUtil.server_address + "/create-account", ["Content-Type: application/json"], HTTPClient.METHOD_POST, json)
+	var user_name: String = create_account_name_line_edit.text
+	var result: String = await NetworkUtil.create_account(user_name, create_account_password_line_edit.text)
+	if result == NetworkUtil.server_ok_response:
+		NetworkUtil.set_user_name(user_name)
+	create_account_response_label.text = result
 
 
 func _on_create_account_cancel_button_pressed() -> void:
 	hide()
-
-
-func _on_login_request_completed(_result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	var json = JSON.parse_string(body.get_string_from_utf8())
-	if json:
-		login_response_label.text = json["status"]
-
-
-func _on_create_account_request_completed(_result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	var json = JSON.parse_string(body.get_string_from_utf8())
-	if json:
-		create_account_response_label.text = json["status"]
