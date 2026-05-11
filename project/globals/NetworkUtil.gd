@@ -8,7 +8,7 @@ var user_name: String:
 	set(value):
 		user_name = value
 		set_user_name(value)
-var server_address: String = "https://ibedenaux.pythonanywhere.com/"
+var server_address: String = "https://ibedenaux.pythonanywhere.com"
 var logged_in: bool = false
 
 var server_ok_response: String = "ok"
@@ -19,12 +19,25 @@ var _status_key: String = "status"
 
 var _http_request: HTTPRequest
 
+signal user_logged_in(user_name: String)
+signal user_logged_out(user_name: String)
+
 
 func login(user: String = user_name, password: String = "") -> String:
 	var data: String = JSON.stringify({"username": user, "password": password})
 	var result: String = await _send_request("/login", HTTPClient.Method.METHOD_POST, data)
 	if result == server_ok_response:
 		logged_in = true
+		user_logged_in.emit("user")
+	return result
+
+
+func logout(user: String = user_name) -> String:
+	var data: String = JSON.stringify({"username": user})
+	var result: String = await _send_request("/logout", HTTPClient.Method.METHOD_POST, data)
+	if result == server_ok_response:
+		logged_in = false
+		user_logged_out.emit("user")
 	return result
 
 
@@ -33,6 +46,7 @@ func create_account(user: String, password: String) -> String:
 	var result: String = await _send_request("/create-account", HTTPClient.Method.METHOD_POST, data)
 	if result == server_ok_response:
 		logged_in = true
+		user_logged_in.emit("user")
 	return result
 
 
