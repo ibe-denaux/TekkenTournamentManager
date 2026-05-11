@@ -15,6 +15,8 @@ var server_ok_response: String = "ok"
 
 var _save_game_path: String = "user://savegame.save"
 var _user_name_key: String = "username"
+var _password_key: String = "password"
+var _cipher_key: String = "cipher"
 var _status_key: String = "status"
 
 var _http_request: HTTPRequest
@@ -24,30 +26,21 @@ signal user_logged_out(user_name: String)
 
 
 func login(user: String = user_name, password: String = "") -> String:
-	var data: String = JSON.stringify({"username": user, "password": password})
-	var result: String = await _send_request("/login", HTTPClient.Method.METHOD_POST, data)
-	if result == server_ok_response:
-		logged_in = true
-		user_logged_in.emit("user")
-	return result
+	var data: String = JSON.stringify({_user_name_key: user, _password_key: password, _cipher_key: _get_cipher()})
+	var result: Dictionary = await _send_request("/login", HTTPClient.Method.METHOD_POST, data)
+	return _parse_login_result(user, result)
 
 
-func logout(user: String = user_name) -> String:
-	var data: String = JSON.stringify({"username": user})
-	var result: String = await _send_request("/logout", HTTPClient.Method.METHOD_POST, data)
-	if result == server_ok_response:
-		logged_in = false
-		user_logged_out.emit("user")
-	return result
+func logout() -> void:
+	_set_save_data_entry(_cipher_key, "")
+	logged_in = false
+	user_logged_out.emit(get_user_name())
 
 
 func create_account(user: String, password: String) -> String:
-	var data: String = JSON.stringify({"username": user, "password": password})
-	var result: String = await _send_request("/create-account", HTTPClient.Method.METHOD_POST, data)
-	if result == server_ok_response:
-		logged_in = true
-		user_logged_in.emit("user")
-	return result
+	var data: String = JSON.stringify({_user_name_key: user, _password_key: password, _cipher_key: _get_cipher()})
+	var result: Dictionary = await _send_request("/create-account", HTTPClient.Method.METHOD_POST, data)
+	return _parse_login_result(user, result)
 
 
 func get_user_name() -> String:
@@ -58,9 +51,7 @@ func get_user_name() -> String:
 
 
 func set_user_name(new_user_name: String) -> void:
-	var save_file = FileAccess.open(_save_game_path, FileAccess.WRITE)
-	var data: Dictionary = {_user_name_key: new_user_name}
-	save_file.store_line(JSON.stringify(data))
+	_set_save_data_entry(_user_name_key, new_user_name)
 
 
 func _ready() -> void:
@@ -71,20 +62,39 @@ func _ready() -> void:
 		login()
 
 
-func _send_request(route: String = "/", method: HTTPClient.Method = HTTPClient.Method.METHOD_GET, data: String = "") -> String:
+func _send_request(route: String = "/", method: HTTPClient.Method = HTTPClient.Method.METHOD_GET, data: String = "") -> Dictionary:
 	var headers = ["Content-Type: application/json", "Access-Control-Allow-Methods: POST, GET, OPTIONS"]
 	var result = _http_request.request(server_address + route, headers, method, data)
 	if result == ERR_BUSY:
-		return "Server is busy"
+		return {_status_key: "Server is busy"}
 	if result == ERR_CANT_CONNECT:
-		return "Server is down"
+		return {_status_key: "Server is down"}
 	if result != OK:
-		return "Server error"
+		return {_status_key: "Server error"}
 	var response: Array = await _http_request.request_completed
 	if response.size() > 3:
 		var json = JSON.parse_string(response[3].get_string_from_utf8())
-		if json and _status_key in json:
-			return json[_status_key]
+		if json:
+			return json
+	return {}
+
+
+func _parse_login_result(user: String, result: Dictionary) -> String:
+	if not result:
+		push_warning("no valid login result")
+		return "login failed"
+	if result[_status_key] == server_ok_response:
+		if _cipher_key in result:
+			_set_save_data_entry(_cipher_key, result[_cipher_key])
+		logged_in = true
+		user_logged_in.emit(user)
+	return result[_status_key]
+
+
+func _get_cipher() -> String:
+	var data: Dictionary = _get_save_data()
+	if _cipher_key in data:
+		return data[_cipher_key]
 	return ""
 
 
@@ -94,12 +104,15 @@ func _get_save_data() -> Dictionary:
 		return {}
 	var json_string = save_file.get_line()
 	var json = JSON.new()
-
-	# Check if there is any error while parsing the JSON string, skip in case of failure.
 	var parse_result = json.parse(json_string)
 	if not parse_result == OK:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 		return {}
-	
-	# Get the data from the JSON object.
 	return json.data
+
+
+func _set_save_data_entry(key: String, value: String) -> void:
+	var save_data: Dictionary = _get_save_data()
+	var save_file = FileAccess.open(_save_game_path, FileAccess.WRITE)
+	save_data[key] = value
+	save_file.store_line(JSON.stringify(save_data))

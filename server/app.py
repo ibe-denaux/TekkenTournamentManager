@@ -2,11 +2,13 @@ import json
 import os
 
 from flask import Flask
-from flask import session, request, Response
+from flask import request, Response
 from flask_cors import CORS
 
 from pathlib import Path
 from filelock import FileLock
+
+from cryptography.fernet import Fernet
 
 THIS_FOLDER = Path(__file__).parent.resolve()
 
@@ -20,6 +22,7 @@ player_info_lock_name = THIS_FOLDER / "player_info.json.lock"
 status_key = "status"
 username_key = "username"
 password_key = "password"
+cipher_key = "cipher"
 
 
 @app.before_request
@@ -60,8 +63,10 @@ def create_account():
 def login():
     username = request.json[username_key]
     password = request.json[password_key]
-    if username_key in session:
-        return {status_key: "Already logged in"}
+    cipher = request.json[cipher_key]
+    fernet = Fernet(app.secret_key.encode('utf-8'))
+    if not password and cipher:
+        password = fernet.decrypt(cipher).decode('utf-8')
     if not username:
         return {status_key: "Invalid username"}
     if not password:
@@ -74,26 +79,16 @@ def login():
                 return {status_key: "No Account"}
             player_info = content[username]
             if player_info[password_key] == password:
-                session[username_key] = username
                 app.logger.info('%s logged in successfully', username)
-                return {status_key: "ok"}
+                return {status_key: "ok", cipher_key: fernet.encrypt(password.encode('utf-8')).decode('utf-8')}
             return {status_key: "Wrong password"}
-
-
-@app.route("/logout", methods=["POST"])
-def logout():
-    username = request.json[username_key]
-    if username_key not in session:
-        return {status_key: "Not logged in"}
-    session.pop(username_key, None)
-    app.logger.info('%s logged out successfully', username)
 
 
 def initialize():
     if not os.path.isfile(secret_key_file_name):
         with open(secret_key_file_name, 'w+') as fp:
-            secret_key = os.urandom(24)
-            fp.write(str(secret_key))
+            secret_key = Fernet.generate_key()
+            fp.write(secret_key.decode("utf-8"))
     with open(secret_key_file_name, 'r') as fp:
         app.secret_key = fp.read()
     if not os.path.isfile(player_info_file_name):
