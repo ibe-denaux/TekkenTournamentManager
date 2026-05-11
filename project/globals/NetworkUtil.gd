@@ -8,7 +8,7 @@ var user_name: String:
 	set(value):
 		user_name = value
 		set_user_name(value)
-var server_address: String = "http://127.0.0.1:5000/"
+var server_address: String = "https://ibedenaux.pythonanywhere.com/"
 var logged_in: bool = false
 
 var server_ok_response: String = "ok"
