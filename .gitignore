@@ -15,3 +15,9 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+server/.idea
+server/player_info.json
+server/secret_key.txt
+
+project/build/

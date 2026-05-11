@@ -8,7 +8,7 @@ var user_name: String:
 	set(value):
 		user_name = value
 		set_user_name(value)
-var server_address: String = "https://ibedenaux.pythonanywhere.com"
+var server_address: String = "http://127.0.0.1:5000"
 var logged_in: bool = false
 
 var server_ok_response: String = "ok"
@@ -72,11 +72,14 @@ func _ready() -> void:
 
 
 func _send_request(route: String = "/", method: HTTPClient.Method = HTTPClient.Method.METHOD_GET, data: String = "") -> String:
-	var result = _http_request.request(NetworkUtil.server_address + route, ["Content-Type: application/json"], method, data)
+	var headers = ["Content-Type: application/json", "Access-Control-Allow-Methods: POST, GET, OPTIONS"]
+	var result = _http_request.request(server_address + route, headers, method, data)
 	if result == ERR_BUSY:
 		return "Server is busy"
 	if result == ERR_CANT_CONNECT:
 		return "Server is down"
+	if result != OK:
+		return "Server error"
 	var response: Array = await _http_request.request_completed
 	if response.size() > 3:
 		var json = JSON.parse_string(response[3].get_string_from_utf8())
