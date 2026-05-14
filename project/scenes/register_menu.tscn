@@ -1,0 +1,183 @@
+[gd_scene format=3 uid="uid://d08snnvadu031"]
+
+[ext_resource type="Script" uid="uid://c457y0u51ppv4" path="res://scripts/register_menu.gd" id="1_gwevv"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_uhids"]
+
+[node name="RegisterMenu" type="MarginContainer" unique_id=1028872850 node_paths=PackedStringArray("monday_checkbutton", "tuesday_checkbutton", "wednesday_checkbutton", "thursday_checkbutton", "friday_checkbutton", "new_player_checkbutton", "casual_player_checkbutton", "veteran_player_checkbutton", "server_response_label")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_right = 48
+script = ExtResource("1_gwevv")
+monday_checkbutton = NodePath("VBoxContainer/GridContainer/HBoxContainer/GridContainer/CheckButton1")
+tuesday_checkbutton = NodePath("VBoxContainer/GridContainer/HBoxContainer/GridContainer/CheckButton2")
+wednesday_checkbutton = NodePath("VBoxContainer/GridContainer/HBoxContainer/GridContainer/CheckButton3")
+thursday_checkbutton = NodePath("VBoxContainer/GridContainer/HBoxContainer/GridContainer/CheckButton4")
+friday_checkbutton = NodePath("VBoxContainer/GridContainer/HBoxContainer/GridContainer/CheckButton5")
+new_player_checkbutton = NodePath("VBoxContainer/GridContainer/GridContainer/CheckButton1")
+casual_player_checkbutton = NodePath("VBoxContainer/GridContainer/GridContainer/CheckButton2")
+veteran_player_checkbutton = NodePath("VBoxContainer/GridContainer/GridContainer/CheckButton3")
+server_response_label = NodePath("VBoxContainer/ServerResponse")
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2061731693]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1231548170]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=67212951]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer" unique_id=1583103707]
+layout_mode = 2
+text = "Rules"
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/ScrollContainer/VBoxContainer" unique_id=948976643]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 24
+text = "1. This is a double elimination style tournament. Lose twice and you're out.
+2. Official matches are held daily between 12h45 and 13h.
+3. You can only pick every character once.
+4. Characters have to be bought in the shop.
+5. You have to choose an available character before your match, or default to random when none are available.
+"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1251982403]
+layout_mode = 2
+
+[node name="ServerResponse" type="Label" parent="VBoxContainer" unique_id=1705336995]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=1847548737]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer" unique_id=479296724]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Availability"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer" unique_id=1139466780]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/GridContainer/HBoxContainer" unique_id=2021664663]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 5
+
+[node name="Label1" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=1613766005]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mo"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=1073690337]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tu"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=1698836983]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "We"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=1149442348]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Th"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=1149515697]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fr"
+horizontal_alignment = 1
+
+[node name="CheckButton1" type="CheckButton" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=561094677]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="CheckButton2" type="CheckButton" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=2075984304]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="CheckButton3" type="CheckButton" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=68184553]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="CheckButton4" type="CheckButton" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=155397529]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="CheckButton5" type="CheckButton" parent="VBoxContainer/GridContainer/HBoxContainer/GridContainer" unique_id=804181593]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer" unique_id=925975869]
+layout_mode = 2
+text = "Matches played"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/GridContainer" unique_id=1973777835]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="Label1" type="Label" parent="VBoxContainer/GridContainer/GridContainer" unique_id=978154393]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/GridContainer" unique_id=1196013020]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10+"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer/GridContainer" unique_id=519465446]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "50+"
+horizontal_alignment = 1
+
+[node name="CheckButton1" type="CheckButton" parent="VBoxContainer/GridContainer/GridContainer" unique_id=2139085733]
+layout_mode = 2
+size_flags_horizontal = 4
+button_group = SubResource("ButtonGroup_uhids")
+
+[node name="CheckButton2" type="CheckButton" parent="VBoxContainer/GridContainer/GridContainer" unique_id=453126131]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+button_group = SubResource("ButtonGroup_uhids")
+
+[node name="CheckButton3" type="CheckButton" parent="VBoxContainer/GridContainer/GridContainer" unique_id=42425541]
+layout_mode = 2
+size_flags_horizontal = 4
+button_group = SubResource("ButtonGroup_uhids")
+
+[node name="SubmitButton" type="Button" parent="VBoxContainer" unique_id=1683929180]
+layout_mode = 2
+text = "Submit"
+
+[connection signal="pressed" from="VBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]

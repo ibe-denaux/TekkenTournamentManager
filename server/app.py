@@ -18,6 +18,8 @@ CORS(app)
 secret_key_file_name = THIS_FOLDER / "secret_key.txt"
 player_info_file_name = THIS_FOLDER / "player_info.json"
 player_info_lock_name = THIS_FOLDER / "player_info.json.lock"
+tournament_info_file_name = THIS_FOLDER / "tournament_info.json"
+tournament_info_lock_name = THIS_FOLDER / "tournament_info.json.lock"
 
 status_key = "status"
 username_key = "username"
@@ -62,7 +64,7 @@ def create_account():
 @app.route("/login", methods=["POST"])
 def login():
     username = request.json[username_key]
-    password = request.json[password_key]
+    password = request.json[password_key] if password_key in request.json else ""
     cipher = request.json[cipher_key]
     fernet = Fernet(app.secret_key.encode('utf-8'))
     if not password and cipher:
@@ -84,6 +86,47 @@ def login():
             return {status_key: "Wrong password"}
 
 
+@app.route("/register", methods=["POST"])
+def register():
+    if not login()[status_key] == "ok":
+        return {status_key: "Can't log in"}
+    lock = FileLock(tournament_info_lock_name)
+    with lock:
+        with open(tournament_info_file_name, 'r') as fp:
+            content = json.load(fp)
+            if "participants" not in content:
+                content["participants"] = {}
+            content["participants"] = {request.json[username_key]: {"availability": request.json["availability"]}, "experience": request.json["experience"]}
+        with open(tournament_info_file_name, 'w') as fp:
+            json.dump(content, fp)
+    return {status_key: "ok"}
+
+
+@app.route("/get-tournament-info", methods=["GET"])
+def get_tournament_info():
+    lock = FileLock(tournament_info_lock_name)
+    with lock:
+        with open(tournament_info_file_name, 'r') as fp:
+            content = json.load(fp)
+        with open(tournament_info_file_name, 'w') as fp:
+            if "registration_deadline" not in content:
+                content["registration_deadline"] = ""
+            if "start_date" not in content:
+                content["start_date"] = ""
+            return content
+
+
+@app.route("/schedule-tournament", methods=["POST"])
+def schedule_tournament():
+    content = get_tournament_info()
+    lock = FileLock(tournament_info_lock_name)
+    with lock:
+        with open(tournament_info_file_name, 'w') as fp:
+            content["registration_deadline"] = request.json["registration_deadline"]
+            content["start_date"] = request.json["start_date"]
+            json.dump(content, fp)
+
+
 def initialize():
     if not os.path.isfile(secret_key_file_name):
         with open(secret_key_file_name, 'w+') as fp:
@@ -93,6 +136,9 @@ def initialize():
         app.secret_key = fp.read()
     if not os.path.isfile(player_info_file_name):
         with open(player_info_file_name, 'w+') as fp:
+            json.dump({}, fp)
+    if not os.path.isfile(tournament_info_file_name):
+        with open(tournament_info_file_name, 'w+') as fp:
             json.dump({}, fp)
 
 

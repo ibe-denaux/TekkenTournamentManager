@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c5labupp5qjql" path="res://icon.svg" id="2_u4wd2"]
 [ext_resource type="Script" uid="uid://bb66ck5sxk4nh" path="res://scripts/home.gd" id="2_uhids"]
 [ext_resource type="PackedScene" uid="uid://c1lewxcd5ocgn" path="res://scenes/bracket_menu.tscn" id="2_w18ys"]
-[ext_resource type="PackedScene" uid="uid://b7nl68ml83ta8" path="res://scenes/player_info.tscn" id="3_reixx"]
 [ext_resource type="PackedScene" uid="uid://d48xii13h6ir" path="res://scenes/login_menu.tscn" id="5_yxilm"]
+[ext_resource type="PackedScene" uid="uid://d08snnvadu031" path="res://scenes/register_menu.tscn" id="6_yxilm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsr8q"]
 content_margin_left = 0.0
@@ -23,7 +23,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Home" type="Control" unique_id=1573360146 node_paths=PackedStringArray("http_request", "bracket_menu", "login_menu")]
+[node name="Home" type="Control" unique_id=1573360146 node_paths=PackedStringArray("home_button", "register_button", "characters_button", "gamble_button", "shop_button", "rankings_button", "login_button", "logout_button", "loading_menu", "register_menu", "bracket_menu", "login_menu", "user_name_label", "next_match_label", "credits_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,9 +32,21 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_krot7")
 script = ExtResource("2_uhids")
-http_request = NodePath("HTTPRequest")
+home_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/HomeButton")
+register_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/RegisterButton")
+characters_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/CharactersButton")
+gamble_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/GambleButton")
+shop_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/ShopButton")
+rankings_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/RankingsButton")
+login_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/LoginButton")
+logout_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/LogoutButton")
+loading_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/LoadingMenu")
+register_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/RegisterMenu")
 bracket_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/BracketMenu")
 login_menu = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/LoginMenu")
+user_name_label = NodePath("MarginContainer/VBoxContainer/PlayerInfo/UserName")
+next_match_label = NodePath("MarginContainer/VBoxContainer/PlayerInfo/NextFight")
+credits_label = NodePath("MarginContainer/VBoxContainer/PlayerInfo/Money")
 
 [node name="Background" type="Panel" parent="." unique_id=501504669]
 layout_mode = 1
@@ -61,12 +73,13 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="MenuButtons" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1661830935]
+[node name="MenuButtons" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1661830935 groups=["MenuButtonContainer"]]
 layout_mode = 2
 mouse_filter = 2
 
 [node name="MenuButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=650685735]
 layout_mode = 2
+disabled = true
 text = "Menu"
 
 [node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=277075508]
@@ -77,14 +90,14 @@ text = "Home"
 layout_mode = 2
 text = "Register"
 
-[node name="ChooseFighterButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=44785034]
-layout_mode = 2
-text = "Choose Fighter"
-
 [node name="GambleButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=517220473]
 layout_mode = 2
 text = "Gamble
 "
+
+[node name="CharactersButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=44785034]
+layout_mode = 2
+text = "Characters"
 
 [node name="ShopButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=55828114]
 layout_mode = 2
@@ -103,6 +116,7 @@ layout_mode = 2
 text = "Login"
 
 [node name="LogoutButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons" unique_id=526041951]
+visible = false
 layout_mode = 2
 text = "Logout
 "
@@ -125,27 +139,128 @@ mouse_filter = 2
 texture = ExtResource("2_u4wd2")
 expand_mode = 3
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=25262148]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=25262148 groups=["MenuTabContainer"]]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 4
 tabs_visible = false
 
 [node name="BracketMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=531321006 instance=ExtResource("2_w18ys")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
+
+[node name="LoadingMenu" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=136485880]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/LoadingMenu" unique_id=1396488471]
+layout_mode = 2
+text = "Connecting to server..."
+horizontal_alignment = 1
 
 [node name="LoginMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=310404148 instance=ExtResource("5_yxilm")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
-[node name="PlayerInfo" parent="MarginContainer/VBoxContainer" unique_id=1730704938 instance=ExtResource("3_reixx")]
+[node name="RegisterMenu" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=1028872850 instance=ExtResource("6_yxilm")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="TournamentParticipantsMenu" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer" unique_id=952810237]
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu" unique_id=1768590960]
 layout_mode = 2
 
-[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=606480731]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer" unique_id=975040803]
+layout_mode = 2
+text = "Registrations open till XX/XX"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer" unique_id=528155033]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer" unique_id=1764565793]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer" unique_id=1611570505]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=680475356]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" unique_id=1237994998]
+layout_mode = 2
+text = "Participants"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" unique_id=1739268453]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer" unique_id=972661116]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=243563696]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1836539903]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer2" unique_id=1948443619]
+layout_mode = 2
+text = "Experience"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer2" unique_id=1764124331]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TabContainer/TournamentParticipantsMenu/VBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer2" unique_id=2101886053]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayerInfo" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1730704938]
+layout_mode = 2
+
+[node name="UserName" type="Label" parent="MarginContainer/VBoxContainer/PlayerInfo" unique_id=1641988718]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Username"
+text_overrun_behavior = 3
+
+[node name="NextFight" type="Label" parent="MarginContainer/VBoxContainer/PlayerInfo" unique_id=602706996]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Your opponent is ... at ..."
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Money" type="Label" parent="MarginContainer/VBoxContainer/PlayerInfo" unique_id=146799964]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "money"
+horizontal_alignment = 2
+text_overrun_behavior = 3
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/RegisterButton" to="." method="_on_register_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/LoginButton" to="." method="_on_login_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MenuButtons/LogoutButton" to="." method="_on_logout_button_pressed"]

@@ -18,29 +18,38 @@ var _user_name_key: String = "username"
 var _password_key: String = "password"
 var _cipher_key: String = "cipher"
 var _status_key: String = "status"
+var _availability_key: String = "availability"
+var _experience_key: String = "experience"
 
 var _http_request: HTTPRequest
 
-signal user_logged_in(user_name: String)
-signal user_logged_out(user_name: String)
-
-
-func login(user: String = user_name, password: String = "") -> String:
-	var data: String = JSON.stringify({_user_name_key: user, _password_key: password, _cipher_key: _get_cipher()})
-	var result: Dictionary = await _send_request("/login", HTTPClient.Method.METHOD_POST, data)
-	return _parse_login_result(user, result)
-
-
-func logout() -> void:
-	_set_save_data_entry(_cipher_key, "")
-	logged_in = false
-	user_logged_out.emit(get_user_name())
+signal user_logged_in()
+signal user_logged_out()
 
 
 func create_account(user: String, password: String) -> String:
 	var data: String = JSON.stringify({_user_name_key: user, _password_key: password, _cipher_key: _get_cipher()})
 	var result: Dictionary = await _send_request("/create-account", HTTPClient.Method.METHOD_POST, data)
-	return _parse_login_result(user, result)
+	return _handle_login(user, result)
+
+
+func login(user: String = user_name, password: String = "") -> String:
+	var data: String = JSON.stringify({_user_name_key: user, _password_key: password, _cipher_key: _get_cipher()})
+	var result: Dictionary = await _send_request("/login", HTTPClient.Method.METHOD_POST, data)
+	return _handle_login(user, result)
+
+
+func logout() -> void:
+	_set_save_data_entry(_cipher_key, "")
+	logged_in = false
+	user_name = ""
+	user_logged_out.emit()
+
+
+func register(availability: Dictionary, experience: int) -> String:
+	var data: String = JSON.stringify({_user_name_key: get_user_name(), _cipher_key: _get_cipher(), _availability_key: availability, _experience_key: experience})
+	var result: Dictionary = await _send_request("/register", HTTPClient.Method.METHOD_POST, data)
+	return result[_status_key]
 
 
 func get_user_name() -> String:
@@ -58,8 +67,6 @@ func _ready() -> void:
 	_http_request = HTTPRequest.new()
 	add_child(_http_request)
 	user_name = get_user_name()
-	if user_name:
-		login()
 
 
 func _send_request(route: String = "/", method: HTTPClient.Method = HTTPClient.Method.METHOD_GET, data: String = "") -> Dictionary:
@@ -76,10 +83,10 @@ func _send_request(route: String = "/", method: HTTPClient.Method = HTTPClient.M
 		var json = JSON.parse_string(response[3].get_string_from_utf8())
 		if json:
 			return json
-	return {}
+	return {_status_key: "Server error"}
 
 
-func _parse_login_result(user: String, result: Dictionary) -> String:
+func _handle_login(user: String, result: Dictionary) -> String:
 	if not result:
 		push_warning("no valid login result")
 		return "login failed"
@@ -87,7 +94,8 @@ func _parse_login_result(user: String, result: Dictionary) -> String:
 		if _cipher_key in result:
 			_set_save_data_entry(_cipher_key, result[_cipher_key])
 		logged_in = true
-		user_logged_in.emit(user)
+		NetworkUtil.set_user_name(user)
+		user_logged_in.emit()
 	return result[_status_key]
 
 
